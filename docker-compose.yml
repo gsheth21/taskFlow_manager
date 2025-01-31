@@ -1,0 +1,33 @@
+version: '3.1'
+
+services:
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: nest-db
+    volumes:
+      - ../taskFlow-db/:/data/db
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://mongo:27017/nest-db
+      ME_CONFIG_BASICAUTH: false
+
+  backend:
+    build: ./backend  # Build context is the backend directory
+    restart: always
+    volumes:
+    - ./backend/src:/app/src
+    ports:
+      - 3000:3000
+    environment:
+      MONGODB_URI: mongodb://mongo:27017/nest-db
+      MONGODB_NAME: nest-db
+      PORT: 3000
+    depends_on:
+      - mongo
