@@ -19,7 +19,7 @@ services:
       ME_CONFIG_BASICAUTH: false
 
   backend:
-    build: ./backend  # Build context is the backend directory
+    build: ./backend
     restart: always
     volumes:
     - ./backend/src:/app/src
@@ -29,5 +29,10 @@ services:
       MONGODB_URI: mongodb://mongo:27017/nest-db
       MONGODB_NAME: nest-db
       PORT: 3000
-    depends_on:
-      - mongo
+
+  frontend:
+    build: ./frontend
+    ports:
+      - 4200:4200
+    volumes:
+      - ./frontend/src:/app/src
