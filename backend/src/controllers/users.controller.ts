@@ -7,9 +7,15 @@ import { Request, Response } from 'express';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post('createUser')
-  async createuser(@Req() req: Request, @Res() res: Response) {
-    const data = await this.usersService.createUser(req.body);
+  @Post('register')
+  async register(@Req() req: Request, @Res() res: Response) {
+    const data = await this.usersService.register(req.body);
+    return res.status(HttpStatus.OK).json(data);
+  }
+
+  @Post('login')
+  async login(@Req() req: Request, @Res() res: Response) {
+    const data = await this.usersService.login(req.body);
     return res.status(HttpStatus.OK).json(data);
   }
 }

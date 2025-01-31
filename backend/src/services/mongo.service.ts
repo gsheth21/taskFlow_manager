@@ -52,6 +52,11 @@ export class MongoService implements OnModuleInit, OnModuleDestroy {
     return collection.findOne({ _id: new ObjectId(id) });
   }
 
+  async findByEmail(collectionName: string, email: string) {
+    const collection = await this.getCollection(collectionName);
+    return collection.findOne({ email: email });
+  }
+
   async updateOne(collectionName: string, id: string, update: object) {
     const collection = await this.getCollection(collectionName);
     return collection.updateOne(
